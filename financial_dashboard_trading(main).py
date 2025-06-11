@@ -356,39 +356,56 @@ import pandas as pd
 ###### K線圖, 移動平均線MA
 with st.expander("K線圖, 移動平均線"):
     fig1 = make_subplots(specs=[[{"secondary_y": True}]])
-    fig1.update_layout(yaxis=dict(fixedrange=False,  # 允許y軸縮放
-                                  autorange=True    # 自動調整範圍
-                                  ),
-                       xaxis=dict(rangeslider=dict(visible=True)  # 保留下方的範圍滑桿
-                                  )
-                       )
-    
-    #### include candlestick with rangeselector
-    fig1.add_trace(go.Candlestick(x=KBar_df['time'],
-                    open=KBar_df['open'], high=KBar_df['high'],
-                    low=KBar_df['low'], close=KBar_df['close'], name='K線'),
-                   secondary_y=True)   ## secondary_y=True 表示此圖形的y軸scale是在右邊而不是在左邊
-    
-    #### include a go.Bar trace for volumes
-    fig1.add_trace(go.Bar(x=KBar_df['time'], y=KBar_df['volume'], name='成交量', marker=dict(color='#AAAAAA')),secondary_y=False)  ## secondary_y=False 表示此圖形的y軸scale是在左邊而不是在右邊
-    fig1.add_trace(go.Scatter(x=KBar_df['time'][last_nan_index_MA+1:], y=KBar_df['MA_long'][last_nan_index_MA+1:], mode='lines',line=dict(color='#00FFFF', width=2), name=f'{LongMAPeriod}-根 K棒 移動平均線'), 
-                  secondary_y=True)
-    fig1.add_trace(go.Scatter(x=KBar_df['time'][last_nan_index_MA+1:], y=KBar_df['MA_short'][last_nan_index_MA+1:], mode='lines',line=dict(color='#FFD700', width=2), name=f'{ShortMAPeriod}-根 K棒 移動平均線'), 
-                  secondary_y=True)
-    
-    fig1.layout.yaxis2.showgrid=True
-    st.plotly_chart(fig1, use_container_width=True)
-fig1.update_layout(
- plot_bgcolor='#121212',    # 畫布背景色
-    paper_bgcolor='#121212',   # 外框背景色
-    font=dict(color='#F5F5F5'),# 所有文字變亮
-    legend=dict(
-        bgcolor='#1E1E1E',
-        bordercolor='#888888',
-        borderwidth=1,
-        font=dict(color='#FFD700')  # 圖例字體金色
+    fig1.update_layout(yaxis=dict(fixedrange=False, autorange=True),
+                       xaxis=dict(rangeslider=dict(visible=True)))
+
+    # K線圖（紅綠柔和版）
+    fig1.add_trace(go.Candlestick(
+        x=KBar_df['time'],
+        open=KBar_df['open'],
+        high=KBar_df['high'],
+        low=KBar_df['low'],
+        close=KBar_df['close'],
+        name='K線',
+        increasing=dict(line=dict(color='#2ECC71'), fillcolor='#2ECC71'),
+        decreasing=dict(line=dict(color='#E74C3C'), fillcolor='#E74C3C')
+    ), secondary_y=True)
+
+    # 成交量灰色
+    fig1.add_trace(go.Bar(x=KBar_df['time'], y=KBar_df['volume'],
+                          name='成交量', marker=dict(color='#AAAAAA')), secondary_y=False)
+
+    # MA 線
+    fig1.add_trace(go.Scatter(x=KBar_df['time'][last_nan_index_MA+1:],
+                              y=KBar_df['MA_long'][last_nan_index_MA+1:],
+                              mode='lines',
+                              line=dict(color='#00FFFF', width=2),
+                              name=f'{LongMAPeriod}-根 K棒 移動平均線'), secondary_y=True)
+
+    fig1.add_trace(go.Scatter(x=KBar_df['time'][last_nan_index_MA+1:],
+                              y=KBar_df['MA_short'][last_nan_index_MA+1:],
+                              mode='lines',
+                              line=dict(color='#FFD700', width=2),
+                              name=f'{ShortMAPeriod}-根 K棒 移動平均線'), secondary_y=True)
+
+    fig1.layout.yaxis2.showgrid = True
+
+    # 加上黑色主題樣式
+    fig1.update_layout(
+        plot_bgcolor='#121212',
+        paper_bgcolor='#121212',
+        font=dict(color='#F5F5F5'),
+        legend=dict(
+            bgcolor='#1E1E1E',
+            bordercolor='#888888',
+            borderwidth=1,
+            font=dict(color='#FFD700')
+        )
     )
-)
+
+    # 顯示圖表
+    st.plotly_chart(fig1, use_container_width=True)
+
 
 
 ###### K線圖, RSI
