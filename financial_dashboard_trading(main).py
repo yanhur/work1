@@ -378,6 +378,17 @@ with st.expander("K線圖, 移動平均線"):
     
     fig1.layout.yaxis2.showgrid=True
     st.plotly_chart(fig1, use_container_width=True)
+fig1.update_layout(
+    plot_bgcolor='#121212',    # 畫布背景色
+    paper_bgcolor='#121212',   # 外框背景色
+    font=dict(color='#F5F5F5'),# 所有文字變亮
+    legend=dict(
+        bgcolor='#1E1E1E',
+        bordercolor='#888888',
+        borderwidth=1,
+        font=dict(color='#FFD700')  # 圖例字體金色
+    )
+)
 
 
 ###### K線圖, RSI
