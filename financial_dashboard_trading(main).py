@@ -434,35 +434,59 @@ with st.expander("長短 RSI"):
 ###### K線圖, Bollinger Band    
 with st.expander("K線圖,布林通道"):
     fig3 = make_subplots(specs=[[{"secondary_y": True}]])
-    fig3.update_layout(yaxis=dict(fixedrange=False,  # 允許y軸縮放
-                                  autorange=True    # 自動調整範圍
-                                  ),
-                       xaxis=dict(rangeslider=dict(visible=True)  # 保留下方的範圍滑桿
-                                  )
-                       )
-    fig3.add_trace(go.Candlestick(x=KBar_df['time'],
-                    open=KBar_df['open'], high=KBar_df['high'],
-                    low=KBar_df['low'], close=KBar_df['close'], name='K線'),
-                    secondary_y=True)    
-    fig3.add_trace(go.Scatter(x=KBar_df['time'][last_nan_index_BB+1:], y=KBar_df['SMA'][last_nan_index_BB+1:], mode='lines',line=dict(color='#FFD700', width=2), name='布林通道中軌道'), 
-                  secondary_y=False)
-    fig3.add_trace(go.Scatter(x=KBar_df['time'][last_nan_index_BB+1:], y=KBar_df['Upper_Band'][last_nan_index_BB+1:], mode='lines',line=dict(color='#F44336', width=2), name='布林通道上軌道'), 
-                  secondary_y=False)
-    fig3.add_trace(go.Scatter(x=KBar_df['time'][last_nan_index_BB+1:], y=KBar_df['Lower_Band'][last_nan_index_BB+1:], mode='lines',line=dict(color='#009688', width=2), name='布林通道下軌道'), 
-                  secondary_y=False)
-    
-    fig3.layout.yaxis2.showgrid=True
-	fig3.update_layout(
-    plot_bgcolor='#121212',
-    paper_bgcolor='#121212',
-    font=dict(color='#F5F5F5'),
-    legend=dict(
-        bgcolor='#1E1E1E',
-        bordercolor='#888888',
-        borderwidth=1,
-        font=dict(color='#FFD700')
+    fig3.update_layout(yaxis=dict(fixedrange=False, autorange=True),
+                       xaxis=dict(rangeslider=dict(visible=True)))
+
+    fig3.add_trace(go.Candlestick(
+        x=KBar_df['time'],
+        open=KBar_df['open'],
+        high=KBar_df['high'],
+        low=KBar_df['low'],
+        close=KBar_df['close'],
+        name='K線',
+        increasing=dict(line=dict(color='#2ECC71'), fillcolor='#2ECC71'),
+        decreasing=dict(line=dict(color='#E74C3C'), fillcolor='#E74C3C')
+    ), secondary_y=True)
+
+    # 中軌（黃） 上軌（紅） 下軌（綠藍）
+    fig3.add_trace(go.Scatter(
+        x=KBar_df['time'][last_nan_index_BB+1:],
+        y=KBar_df['SMA'][last_nan_index_BB+1:],
+        mode='lines',
+        line=dict(color='#FFD700', width=2),
+        name='布林通道中軌道'
+    ), secondary_y=False)
+
+    fig3.add_trace(go.Scatter(
+        x=KBar_df['time'][last_nan_index_BB+1:],
+        y=KBar_df['Upper_Band'][last_nan_index_BB+1:],
+        mode='lines',
+        line=dict(color='#F44336', width=2),
+        name='布林通道上軌道'
+    ), secondary_y=False)
+
+    fig3.add_trace(go.Scatter(
+        x=KBar_df['time'][last_nan_index_BB+1:],
+        y=KBar_df['Lower_Band'][last_nan_index_BB+1:],
+        mode='lines',
+        line=dict(color='#009688', width=2),
+        name='布林通道下軌道'
+    ), secondary_y=False)
+
+    fig3.layout.yaxis2.showgrid = True
+
+    # 🔥 黑金主題設定加上去
+    fig3.update_layout(
+        plot_bgcolor='#121212',
+        paper_bgcolor='#121212',
+        font=dict(color='#F5F5F5'),
+        legend=dict(
+            bgcolor='#1E1E1E',
+            bordercolor='#888888',
+            borderwidth=1,
+            font=dict(color='#FFD700')
+        )
     )
-)
 
     st.plotly_chart(fig3, use_container_width=True)
 
