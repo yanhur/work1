@@ -379,15 +379,6 @@ with st.expander("K線圖, 移動平均線"):
     fig1.layout.yaxis2.showgrid=True
     st.plotly_chart(fig1, use_container_width=True)
 fig1.update_layout(
-   =KBar_df['time'],
-        open=KBar_df['open'],
-        high=KBar_df['high'],
-        low=KBar_df['low'],
-        close=KBar_df['close'],
-        name='K線',
-        increasing=dict(line=dict(color='#2ECC71'), fillcolor='#2ECC71'),
-        decreasing=dict(line=dict(color='#E74C3C'), fillcolor='#E74C3C')
-    ), secondary_y=True)
  plot_bgcolor='#121212',    # 畫布背景色
     paper_bgcolor='#121212',   # 外框背景色
     font=dict(color='#F5F5F5'),# 所有文字變亮
