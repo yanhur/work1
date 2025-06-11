@@ -367,8 +367,8 @@ with st.expander("K線圖, 移動平均線"):
         low=KBar_df['low'],
         close=KBar_df['close'],
         name='K線',
-        increasing=dict(line=dict(color='#2ECC71'), fillcolor='#2ECC71'),
-        decreasing=dict(line=dict(color='#E74C3C'), fillcolor='#E74C3C')
+        increasing=dict(line=dict(color='#009688'), fillcolor='#009688'),
+    decreasing=dict(line=dict(color='#F44336'), fillcolor='#F44336')
     ), secondary_y=True)
 
     # 成交量灰色
