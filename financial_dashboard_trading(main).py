@@ -411,24 +411,44 @@ with st.expander("K線圖, 移動平均線"):
 ###### K線圖, RSI
 with st.expander("長短 RSI"):
     fig2 = make_subplots(specs=[[{"secondary_y": True}]])
-    fig2.update_layout(yaxis=dict(fixedrange=False,  # 允許y軸縮放
-                                  autorange=True    # 自動調整範圍
-                                  ),
-                       xaxis=dict(rangeslider=dict(visible=True)  # 保留下方的範圍滑桿
-                                  )
-                       )
-    #### include candlestick with rangeselector
-    # fig2.add_trace(go.Candlestick(x=KBar_df['Time'],
-    #                 open=KBar_df['Open'], high=KBar_df['High'],
-    #                 low=KBar_df['Low'], close=KBar_df['Close'], name='K線'),
-    #                secondary_y=True)   ## secondary_y=True 表示此圖形的y軸scale是在右邊而不是在左邊
-    
-    fig2.add_trace(go.Scatter(x=KBar_df['time'][last_nan_index_RSI+1:], y=KBar_df['RSI_long'][last_nan_index_RSI+1:], mode='lines',line=dict(color='red', width=2), name=f'{LongRSIPeriod}-根 K棒 移動 RSI'), 
-                  secondary_y=False)
-    fig2.add_trace(go.Scatter(x=KBar_df['time'][last_nan_index_RSI+1:], y=KBar_df['RSI_short'][last_nan_index_RSI+1:], mode='lines',line=dict(color='blue', width=2), name=f'{ShortRSIPeriod}-根 K棒 移動 RSI'), 
-                  secondary_y=False)
-    
-    fig2.layout.yaxis2.showgrid=True
+    fig2.update_layout(
+        yaxis=dict(fixedrange=False, autorange=True),
+        xaxis=dict(rangeslider=dict(visible=True))
+    )
+
+    # 長期 RSI（亮藍）
+    fig2.add_trace(go.Scatter(
+        x=KBar_df['time'][last_nan_index_RSI+1:],
+        y=KBar_df['RSI_long'][last_nan_index_RSI+1:],
+        mode='lines',
+        line=dict(color='#00FFFF', width=2),
+        name=f'{LongRSIPeriod}-根 K棒 移動 RSI'
+    ), secondary_y=False)
+
+    # 短期 RSI（金色）
+    fig2.add_trace(go.Scatter(
+        x=KBar_df['time'][last_nan_index_RSI+1:],
+        y=KBar_df['RSI_short'][last_nan_index_RSI+1:],
+        mode='lines',
+        line=dict(color='#FFD700', width=2),
+        name=f'{ShortRSIPeriod}-根 K棒 移動 RSI'
+    ), secondary_y=False)
+
+    fig2.layout.yaxis2.showgrid = True
+
+    # 黑底 + 白字 + 金色圖例
+    fig2.update_layout(
+        plot_bgcolor='#121212',
+        paper_bgcolor='#121212',
+        font=dict(color='#F5F5F5'),
+        legend=dict(
+            bgcolor='#1E1E1E',
+            bordercolor='#888888',
+            borderwidth=1,
+            font=dict(color='#FFD700')
+        )
+    )
+
     st.plotly_chart(fig2, use_container_width=True)
     
 
