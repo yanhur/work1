@@ -493,29 +493,54 @@ with st.expander("K線圖,布林通道"):
 
 
 ###### MACD
-with st.expander("MACD(異同移動平均線)"):
+with st.expander("MACD（異同移動平均線）"):
     fig4 = make_subplots(specs=[[{"secondary_y": True}]])
-    fig4.update_layout(yaxis=dict(fixedrange=False,  # 允許y軸縮放
-                                  autorange=True    # 自動調整範圍
-                                  ),
-                       xaxis=dict(rangeslider=dict(visible=True)  # 保留下方的範圍滑桿
-                                  )
-                       )
-    
-    # #### include candlestick with rangeselector
-    # fig4.add_trace(go.Candlestick(x=KBar_df['Time'],
-    #                 open=KBar_df['Open'], high=KBar_df['High'],
-    #                 low=KBar_df['Low'], close=KBar_df['Close'], name='K線'),
-    #                secondary_y=True)   ## secondary_y=True 表示此圖形的y軸scale是在右邊而不是在左邊
-    
-    #### include a go.Bar trace for volumes
-    fig4.add_trace(go.Bar(x=KBar_df['time'], y=KBar_df['MACD_Histogram'], name='MACD Histogram', marker=dict(color='black')),secondary_y=False)  ## secondary_y=False 表示此圖形的y軸scale是在左邊而不是在右邊
-    fig4.add_trace(go.Scatter(x=KBar_df['time'][last_nan_index_MACD+1:], y=KBar_df['Signal_Line'][last_nan_index_MACD+1:], mode='lines',line=dict(color='orange', width=2), name='訊號線(DEA)'), 
-                  secondary_y=True)
-    fig4.add_trace(go.Scatter(x=KBar_df['time'][last_nan_index_MACD+1:], y=KBar_df['MACD'][last_nan_index_MACD+1:], mode='lines',line=dict(color='pink', width=2), name='DIF'), 
-                  secondary_y=True)
-    
-    fig4.layout.yaxis2.showgrid=True
+    fig4.update_layout(
+        yaxis=dict(fixedrange=False, autorange=True),
+        xaxis=dict(rangeslider=dict(visible=True))
+    )
+
+    # MACD Histogram（灰色柱狀圖）
+    fig4.add_trace(go.Bar(
+        x=KBar_df['time'],
+        y=KBar_df['MACD_Histogram'],
+        name='MACD Histogram',
+        marker=dict(color='#AAAAAA')
+    ), secondary_y=False)
+
+    # 訊號線 DEA（亮藍）
+    fig4.add_trace(go.Scatter(
+        x=KBar_df['time'][last_nan_index_MACD+1:],
+        y=KBar_df['Signal_Line'][last_nan_index_MACD+1:],
+        mode='lines',
+        line=dict(color='#00FFFF', width=2),
+        name='訊號線 (DEA)'
+    ), secondary_y=True)
+
+    # DIF 線（金色）
+    fig4.add_trace(go.Scatter(
+        x=KBar_df['time'][last_nan_index_MACD+1:],
+        y=KBar_df['MACD'][last_nan_index_MACD+1:],
+        mode='lines',
+        line=dict(color='#FFD700', width=2),
+        name='DIF'
+    ), secondary_y=True)
+
+    fig4.layout.yaxis2.showgrid = True
+
+    # 黑金主題樣式
+    fig4.update_layout(
+        plot_bgcolor='#121212',
+        paper_bgcolor='#121212',
+        font=dict(color='#F5F5F5'),
+        legend=dict(
+            bgcolor='#1E1E1E',
+            bordercolor='#888888',
+            borderwidth=1,
+            font=dict(color='#FFD700')
+        )
+    )
+
     st.plotly_chart(fig4, use_container_width=True)
 
 
