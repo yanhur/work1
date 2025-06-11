@@ -1,0 +1,6 @@
+[theme]
+primaryColor = "#FFD700"              # 金黃色：強調按鈕與重點
+backgroundColor = "#121212"           # 深黑灰背景
+secondaryBackgroundColor = "#1E1E1E"  # 側邊欄或次要區塊
+textColor = "#F5F5F5"                 # 淺白字體
+font = "sans serif"
