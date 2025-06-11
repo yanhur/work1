@@ -354,7 +354,7 @@ import pandas as pd
 
 
 ###### K線圖, 移動平均線MA
-with st.expander("K線圖, MACD"):
+with st.expander("K線圖, 移動平均線"):
     fig1 = make_subplots(specs=[[{"secondary_y": True}]])
     fig1.update_layout(yaxis=dict(fixedrange=False, autorange=True),
                        xaxis=dict(rangeslider=dict(visible=True)))
