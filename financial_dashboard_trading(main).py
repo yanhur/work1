@@ -24,12 +24,13 @@ import matplotlib
 ####### (1) 開始設定 #######
 ###### 設定網頁標題介面 
 html_temp = """
-		<div style="background-color:#3872fb;padding:10px;border-radius:10px">   
-		<h1 style="color:white;text-align:center;">金融看板與程式交易平台 </h1>
-		<h2 style="color:white;text-align:center;">Financial Dashboard and Program Trading </h2>
-		</div>
-		"""
+	<div style="background-color:#1E1E1E; padding:20px; border-radius:12px; border:2px solid #FFD700;">
+		<h1 style="color:#FFD700; text-align:center; font-size:36px;">金融看板與程式交易平台</h1>
+		<h2 style="color:#CCCCCC; text-align:center; font-size:18px;">Financial Dashboard and Program Trading</h2>
+	</div>
+"""
 stc.html(html_temp)
+
 
 
 ###### 讀取資料
