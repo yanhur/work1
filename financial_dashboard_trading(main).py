@@ -452,6 +452,17 @@ with st.expander("K線圖,布林通道"):
                   secondary_y=False)
     
     fig3.layout.yaxis2.showgrid=True
+	fig3.update_layout(
+    plot_bgcolor='#121212',
+    paper_bgcolor='#121212',
+    font=dict(color='#F5F5F5'),
+    legend=dict(
+        bgcolor='#1E1E1E',
+        bordercolor='#888888',
+        borderwidth=1,
+        font=dict(color='#FFD700')
+    )
+)
 
     st.plotly_chart(fig3, use_container_width=True)
 
